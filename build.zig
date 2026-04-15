@@ -39,4 +39,23 @@ pub fn build(b: *std.Build) void {
 
     const application_run_step = b.step("run", "Run the application");
     application_run_step.dependOn(&application_run_artifact.step);
+
+    const application_test = b.addTest(.{
+        .name = "aimux-test",
+        .root_module = application.root_module,
+    });
+
+    const application_test_artifact = b.addRunArtifact(application_test);
+    application_test_artifact.step.dependOn(b.getInstallStep());
+
+    const application_test_step = b.step("test", "Test the app");
+    application_test_step.dependOn(&application_test_artifact.step);
+
+    const application_check = b.addExecutable(.{
+        .name = "aimux-check",
+        .root_module = application.root_module,
+    });
+
+    const application_check_step = b.step("check", "Check the app");
+    application_check_step.dependOn(&application_check.step);
 }
