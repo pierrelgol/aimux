@@ -29,4 +29,14 @@ pub fn build(b: *std.Build) void {
         }),
     });
     b.installArtifact(application);
+
+    const application_run_artifact = b.addRunArtifact(application);
+    application_run_artifact.step.dependOn(b.getInstallStep());
+
+    if (b.args) |arguments| {
+        application_run_artifact.addArgs(arguments);
+    }
+
+    const application_run_step = b.step("run", "Run the application");
+    application_run_step.dependOn(&application_run_artifact.step);
 }
