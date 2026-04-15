@@ -1,5 +1,11 @@
 .claude
 # dependencies (bun install)
+zig-out/
+.zig-cache/
+zig-cache/
+zig-pkg/
+*.js
+*.ts
 node_modules
 .opencode
 demo.*
